@@ -1,39 +1,39 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-const BASE_URL = 'https://bepmimy-be.onrender.com';
+interface Recipe {
+  id: number;
+  name: string;
+  unit: string;
+  unitAmount: number;
+  price: number;
+}
 
 export async function GET() {
   try {
-    const res = await fetch(`${BASE_URL}/recipes`, { cache: 'no-store' });
-    if (!res.ok) {
-      return NextResponse.json({ error: 'Failed to fetch data' }, { status: res.status });
-    }
-    const data = await res.json();
-    return NextResponse.json(data);
-  } catch (err) {
-    console.error('GET error:', err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
-
-export async function POST(req: NextRequest) {
-  try {
-    const { ingredients } = await req.json();
-
-    const res = await fetch(`${BASE_URL}/ingredient-cost`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ingredients }),
+    const response = await fetch('https://bepmimy-be.onrender.com/recipes', {
+      cache: 'no-store',
     });
 
-    if (!res.ok) {
-      return NextResponse.json({ error: 'Failed to fetch data' }, { status: res.status });
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: 'Failed to fetch data from backend' },
+        { status: response.status }
+      );
     }
 
-    const data = await res.json();
+    const rawData = await response.json();
+
+    // ép kiểu dữ liệu về Recipe[]
+    const data: Recipe[] = rawData.map((item: any) => ({
+      id: Number(item.id),
+      name: String(item.name),
+      unit: String(item.unit),
+      unitAmount: Number(item.unitAmount),
+      price: Number(item.price),
+    }));
+
     return NextResponse.json(data);
-  } catch (err) {
-    console.error('POST error:', err);
+  } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

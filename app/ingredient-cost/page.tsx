@@ -1,7 +1,11 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Typography } from '@mui/material';
+import {
+  CircularProgress,
+  Typography,
+  Box,
+} from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 interface Recipe {
@@ -21,9 +25,9 @@ const CostCalculator: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api/ingredient-cost');
+        const res = await fetch('/api/ingredient-cost', { cache: 'no-store' });
         if (!res.ok) throw new Error('Failed to fetch data');
-        const data = await res.json();
+        const data: Recipe[] = await res.json();
         setRecipes(data);
       } catch (err: any) {
         setError(err.message || 'Error occurred');
@@ -39,14 +43,24 @@ const CostCalculator: React.FC = () => {
     { field: 'name', headerName: 'Nguyên liệu', width: 200 },
     { field: 'unit', headerName: 'Đơn vị', width: 120 },
     { field: 'unitAmount', headerName: 'Định lượng', width: 150 },
-    { field: 'price', headerName: 'Giá (VND)', width: 150 },
+    {
+      field: 'price',
+      headerName: 'Giá (VND)',
+      renderCell: (params) => (
+        <Typography color="primary" fontFamily={'MyFont'} textAlign={'center'} mt={1}>
+          {params.value != null
+            ? params.value.toLocaleString('vi-VN')
+            : ''}
+        </Typography>
+      ),
+    },
   ];
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-40">
+      <Box display="flex" justifyContent="center" alignItems="center" height={160}>
         <CircularProgress />
-      </div>
+      </Box>
     );
   }
 
@@ -55,21 +69,32 @@ const CostCalculator: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '24px' }}>
-      <Typography variant="h4" gutterBottom>
+    <Box p={3} 
+    sx={{
+      fontFamily: 'MyFont',
+    }} >
+      <Typography variant="h4" gutterBottom 
+      sx={{
+        fontFamily: 'MyFont',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        mb: 3,
+      }}>
         TÍNH TOÁN CHI PHÍ NGUYÊN LIỆU
       </Typography>
-      <div style={{ height: 400, width: '100%' }}>
+      <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
           rows={recipes}
           columns={columns}
           pageSizeOptions={[5, 10]}
           initialState={{
-            pagination: { paginationModel: { pageSize: 5 } },
+            pagination: { paginationModel: { pageSize: 10 } },
           }}
+          sx={{ fontFamily: 'MyFont' }}
+          
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
