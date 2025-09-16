@@ -16,12 +16,13 @@ export default function Footer() {
         borderTop: "1px solid #eee",
         mt: 8,
         py: 6,
+        
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={6}>
+        <Box display="flex" flexDirection={{ xs: "column", md: "row" }} justifyContent="space-between" gap={4}>
           {/* Logo + Description */}
-          <Grid item xs={12} md={4}>
+          <Box >
             <Typography
               variant="h5"
               sx={{
@@ -33,50 +34,28 @@ export default function Footer() {
               BẾP MỊ MY
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Những khoảnh khắc ngọt ngào được làm mới mỗi ngày. 
-              
+              Những khoảnh khắc ngọt ngào được làm mới mỗi ngày.
+
             </Typography>
             <Typography variant="body2" color="text.secondary" mt={1}>
               Thưởng thức bánh kem, bánh mì và bánh ngọt thơm ngon được làm bằng cả tình yêu.
             </Typography>
-          </Grid>
-
-          {/* Quick Links */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography
-              variant="h6"
-              sx={{
-              fontFamily: "Playfair Display, serif",
-              fontWeight: 600,
-              mb: 2,
-              }}
-            >
-              LIÊN KẾT NHANH
-            </Typography>
-            {["TRANG CHỦ", "GIỚI THIỆU", "MENU", "THƯ VIỆN", "LIÊN HỆ"].map((item) => (
-              <Typography key={item} variant="body2" sx={{ mb: 1, display: "flex", alignItems: "center" }}>
-              <ArrowRightIcon sx={{ fontSize: 18, mr: 1 }} />
-              <Link
-                href={`/${item === "Home" ? "" : item.toLowerCase()}`}
-                underline="hover"
-                color="inherit"
-              >
-                {item}
-              </Link>
-              </Typography>
-            ))}
-            
-          </Grid>
-
+          </Box>
+          
           {/* Contact Info */}
-          <Grid item xs={12} sm={6} md={4}>
+          <Box>
             <Typography
               variant="h6"
               sx={{
                 fontFamily: "Playfair Display, serif",
-                fontWeight: 600,
+                fontSize: {
+                  xs: "0.75rem",
+                  sm: "0.875rem",
+                  md: "1rem",
+                },
                 mb: 2,
               }}
+
             >
               LIÊN HỆ
             </Typography>
@@ -98,10 +77,10 @@ export default function Footer() {
               <IconButton href="#" size="small" sx={{ color: "black" }}>
                 <img src="/zl.webp" alt="" width={24} />
               </IconButton>
-              
+
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
 
         {/* Bottom copyright */}
         <Box textAlign="center" mt={5}>
