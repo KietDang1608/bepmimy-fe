@@ -24,12 +24,12 @@ export async function GET() {
     const rawData = await response.json();
 
     // ép kiểu dữ liệu về Recipe[]
-    const data: Recipe[] = rawData.map((item: any) => ({
-      id: Number(item.id),
-      name: String(item.name),
-      unit: String(item.unit),
-      unitAmount: Number(item.unitAmount),
-      price: Number(item.price),
+    const data: Recipe[] = (rawData as unknown[]).map((item) => ({
+      id: Number((item as { id: unknown }).id),
+      name: String((item as { name: unknown }).name),
+      unit: String((item as { unit: unknown }).unit),
+      unitAmount: Number((item as { unitAmount: unknown }).unitAmount),
+      price: Number((item as { price: unknown }).price),
     }));
 
     return NextResponse.json(data);
@@ -41,5 +41,4 @@ export async function GET() {
       { status: 500 }
     );
   }
-
 }
