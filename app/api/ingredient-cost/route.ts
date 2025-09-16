@@ -33,7 +33,13 @@ export async function GET() {
     }));
 
     return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  } // chỗ này: catch (error: any)
+  catch (error: unknown) {
+    console.error(error); // log ra để tránh "unused var"
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
+
 }

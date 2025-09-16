@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+
 import {
   CircularProgress,
   Typography,
@@ -29,14 +30,19 @@ const CostCalculator: React.FC = () => {
         if (!res.ok) throw new Error('Failed to fetch data');
         const data: Recipe[] = await res.json();
         setRecipes(data);
-      } catch (err: any) {
-        setError(err.message || 'Error occurred');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Unexpected error');
+        }
       } finally {
         setLoading(false);
       }
     };
     fetchData();
   }, []);
+
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -54,7 +60,7 @@ const CostCalculator: React.FC = () => {
         </Typography>
       ),
     },
-    
+
   ];
 
   if (loading) {
@@ -70,17 +76,17 @@ const CostCalculator: React.FC = () => {
   }
 
   return (
-    <Box p={3} 
-    sx={{
-      fontFamily: 'MyFont',
-    }} >
-      <Typography variant="h4" gutterBottom 
+    <Box p={3}
       sx={{
         fontFamily: 'MyFont',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        mb: 3,
-      }}>
+      }} >
+      <Typography variant="h4" gutterBottom
+        sx={{
+          fontFamily: 'MyFont',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          mb: 3,
+        }}>
         TÍNH TOÁN CHI PHÍ NGUYÊN LIỆU
       </Typography>
       <Box sx={{ height: 400, width: '100%' }}>
@@ -92,7 +98,7 @@ const CostCalculator: React.FC = () => {
             pagination: { paginationModel: { pageSize: 10 } },
           }}
           sx={{ fontFamily: 'MyFont' }}
-          
+
         />
       </Box>
     </Box>
