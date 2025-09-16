@@ -54,6 +54,7 @@ const CostCalculator: React.FC = () => {
         </Typography>
       ),
     },
+    
   ];
 
   if (loading) {
