@@ -5,6 +5,7 @@ import theme from "@/styles/theme";
 import "./globals.css";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
+import "@/styles/fonts.css";
 
 export const metadata: Metadata = {
   title: "Bếp Mị My",
@@ -13,7 +14,6 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
     shortcut: "/favicon-16x16.png",
-    
   },
 };
 
